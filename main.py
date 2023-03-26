@@ -18,19 +18,19 @@ def process_queries(queries):
     result = []
     # Use a dictionary to store the phone numbers and names
     phone_book = {}
-    for cur_query in queries:
-        if cur_query.type == 'add':
+    for cq in queries:
+        if cq.type == 'add':
             # if we already have contact with such number,
             # we should overwrite the contact's name
-            phone_book[cur_query.number] = cur_query.name
-        elif cur_query.type == 'del':
+            phone_book[cq.number] = cq.name
+        elif cq.type == 'del':
             # Check if the phone number is in the dictionary before deleting
-            if cur_query.number in phone_book:
-                del phone_book[cur_query.number]
+            if cq.number in phone_book:
+                del phone_book[cq.number]
         else:
             # Check if the phone number is in the dictionary before finding
-            if cur_query.number in phone_book:
-                result.append(phone_book[cur_query.number])
+            if cq.number in phone_book:
+                result.append(phone_book[cq.number])
             else:
                 result.append('not found')
     return result
