@@ -1,7 +1,7 @@
 # python3
 
 class Query:
-    def __init__(self, query):
+    def _init_(self, query):
         self.type = query[0]
         self.number = int(query[1])
         if self.type == 'add':
@@ -16,25 +16,22 @@ def write_responses(result):
 
 def process_queries(queries):
     result = []
-    # Use a dictionary to store the phone numbers and names
-    phone_book = {}
-    for cq in queries:
-        if cq.type == 'add':
-            # if we already have contact with such number,
-            # we should overwrite the contact's name
-            phone_book[cq.number] = cq.name
-        elif cq.type == 'del':
-            # Check if the phone number is in the dictionary before deleting
-            if cq.number in phone_book:
-                del phone_book[cq.number]
+    # Use a dictionary to store contacts with numbers as keys
+    contacts = {}
+    for cur_query in queries:
+        if cur_query.type == 'add':
+            # Add contact to dictionary or update name if number already exists
+            contacts[cur_query.number] = cur_query.name
+        elif cur_query.type == 'del':
+            # Remove contact from dictionary if it exists
+            if cur_query.number in contacts:
+                del contacts[cur_query.number]
         else:
-            # Check if the phone number is in the dictionary before finding
-            if cq.number in phone_book:
-                result.append(phone_book[cq.number])
-            else:
-                result.append('not found')
+            # Look up contact by number in dictionary
+            response = contacts.get(cur_query.number, 'not found')
+            result.append(response)
     return result
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     write_responses(process_queries(read_queries()))
 
